@@ -1,8 +1,7 @@
 import numpy as np
 import json
 from liczenie_energii import Energies
-
-
+   
 def oblicz_przyspieszenia(masy, x, y, G, wygladzanie=0.01):
     '''
     Oblicza przyspieszenia dla trzech ciał.

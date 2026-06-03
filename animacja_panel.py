@@ -1,6 +1,7 @@
 #chce uzyc pygame do stworzenia panelu animacji, który będzie wyświetlał animację na ekranie
 import pygame
 import numpy as np
+import argparse
 import json
 from main import oblicz_przyspieszenia, symuluj_krok
 from liczenie_energii import Energies
@@ -168,23 +169,62 @@ class AnimacjaPanel:
 
         pygame.quit()
 
+# if __name__ == "__main__":
+#     panel = AnimacjaPanel()
+
+#     symulacje = []
+
+#     for config in configs.values():
+#         # print("DEBUG CONFIG:", config) - miałam błąd o "prędkości", zmieniłam w configs.json na "predkosci"
+#         # print("DEBUG KEYS:", config.keys())
+#         symulacje.append({
+#             "masy": config["masy"],
+#             "x": [p[0] for p in config["pozycje"]],
+#             "y": [p[1] for p in config["pozycje"]],
+#             "vx": [v[0] for v in config["predkosci"]],
+#             "vy": [v[1] for v in config["predkosci"]],
+#             "G": config["G"],
+#             't_max': config['t_max'],
+#             "dt": 0.01,
+#             "nazwa": config.get("opis", "")
+#         })
+
+#     panel.run_all(symulacje)
+    
 if __name__ == "__main__":
-    panel = AnimacjaPanel()
+    parser = argparse.ArgumentParser(description = 'Symulacja modelu trzech ciał')
+    parser.add_argument('--config', type = str, default = 'configs.json')
+
+    parser.add_argument('--G', type = float, default = None,
+                        help = 'Stała grawitacyjna')
+    parser.add_argument('--t_max', type = float, default = None,
+                        help = 'Czas symulacji')
+
+    args = parser.parse_args()
+
+    with open(args.config, 'r') as file:
+        configs = json.load(file)
 
     symulacje = []
 
     for config in configs.values():
-        # print("DEBUG CONFIG:", config) - miałam błąd o "prędkości", zmieniłam w configs.json na "predkosci"
-        # print("DEBUG KEYS:", config.keys())
+
+        G = args.G if args.G is not None else config['G']
+        t_max = args.t_max if args.t_max is not None else config['t_max']
+
         symulacje.append({
             "masy": config["masy"],
             "x": [p[0] for p in config["pozycje"]],
             "y": [p[1] for p in config["pozycje"]],
             "vx": [v[0] for v in config["predkosci"]],
             "vy": [v[1] for v in config["predkosci"]],
-            "G": config["G"],
+
+            "G": G,
+            "t_max": t_max,
             "dt": 0.01,
             "nazwa": config.get("opis", "")
         })
 
+    panel = AnimacjaPanel()
     panel.run_all(symulacje)
+    
