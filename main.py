@@ -82,8 +82,8 @@ if __name__ == "__main__":
     y = [0.0, 0.0, 0.866]
     
     # Prędkości początkowe
-    vx = [ 0.5, -0.5, 0.0]
-    vy = [ 0.5, 0.5, -1.0]
+    vx = [0.5, -0.5, 0.0]
+    vy = [0.5, 0.5, -1.0]
     
     print('PRZED symulacją:')
     for i in range(3):
@@ -119,7 +119,7 @@ for i, nazwa in enumerate(lista_nazw):
 
 #Wybranie konfiguracji
 wybrana = lista_nazw[0]  #domyślnie pierwsza konfiguracja
-print(f'\n Wybrano konfigurację {i+1}. {wybrana}')
+print(f'\nWybrano konfigurację {i+1}. {wybrana}')
 
 #Pobranie danych z wybranej 
 konfig = konfiguracje[wybrana]
