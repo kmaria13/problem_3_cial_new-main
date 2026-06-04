@@ -70,7 +70,6 @@ def symuluj_krok(masy, x, y, vx, vy, G, dt, wygladzanie=0.01):
 
 # TEST: aby uruchomic wpisać "python main.py" w terminalu
 
-
 if __name__ == "__main__":
     
     # Dane testowe (Figura osiem)
@@ -79,12 +78,12 @@ if __name__ == "__main__":
     dt = 0.01
     
     # Pozycje początkowe
-    x = [-0.5,  0.5,  0.0]
-    y = [ 0.0,  0.0,  0.866]
+    x = [-0.5, 0.5, 0.0]
+    y = [0.0, 0.0, 0.866]
     
     # Prędkości początkowe
-    vx = [ 0.5, -0.5,  0.0]
-    vy = [ 0.5,  0.5, -1.0]
+    vx = [ 0.5, -0.5, 0.0]
+    vy = [ 0.5, 0.5, -1.0]
     
     print('PRZED symulacją:')
     for i in range(3):
@@ -144,9 +143,6 @@ ek_values = [] # tablica na energie kinetyczne
 ep_values = [] # tablica na energie potencjalne
 et_values = [] # tablica na energie całkowite
 
-# Liczenie energii kinetycznej 
-# E_kin_0 = energia_kinetyczna(masy, vx, vy)
-
 
 if __name__ == "__main__":
     print(f'Czas symulacji: {t_max} s, krok: {dt} s, liczba kroków: {kroki}\n')
@@ -155,8 +151,6 @@ if __name__ == "__main__":
     for i in range(3):
         print(f'Ciało {i}: m={masy[i]}, x={x[i]:.3f}, y={y[i]:.3f}, vx={vx[i]:.3f}, vy={vy[i]:.3f}')
         
-    # Wyświetlanie energii kinetycznej
-    # print(f'Początkowa energia kinetyczna układu trzech ciał: {E_kin}')
 
     print('\nUruchamianie symulacji...')
 

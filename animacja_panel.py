@@ -168,63 +168,57 @@ class AnimacjaPanel:
             self.clock.tick(60)
 
         pygame.quit()
-
-# if __name__ == "__main__":
-#     panel = AnimacjaPanel()
-
-#     symulacje = []
-
-#     for config in configs.values():
-#         # print("DEBUG CONFIG:", config) - miałam błąd o "prędkości", zmieniłam w configs.json na "predkosci"
-#         # print("DEBUG KEYS:", config.keys())
-#         symulacje.append({
-#             "masy": config["masy"],
-#             "x": [p[0] for p in config["pozycje"]],
-#             "y": [p[1] for p in config["pozycje"]],
-#             "vx": [v[0] for v in config["predkosci"]],
-#             "vy": [v[1] for v in config["predkosci"]],
-#             "G": config["G"],
-#             't_max': config['t_max'],
-#             "dt": 0.01,
-#             "nazwa": config.get("opis", "")
-#         })
-
-#     panel.run_all(symulacje)
-    
+   
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description = 'Symulacja modelu trzech ciał')
-    parser.add_argument('--config', type = str, default = 'configs.json')
 
-    parser.add_argument('--G', type = float, default = None,
-                        help = 'Stała grawitacyjna')
-    parser.add_argument('--t_max', type = float, default = None,
-                        help = 'Czas symulacji')
+    parser = argparse.ArgumentParser(description = 'Symulacja problemu 3 ciał.')
+    parser.add_argument('--config', type = str, default = 'configs.json')
+    parser.add_argument('--G', type = float, default = None, help = 'Stała grawitacji (domyślnie z konfiguracji)')
+    parser.add_argument('--t_max', type = float, default = None, help = 'Czas symulacji (domyślnie z konfiguracji)')
+    parser.add_argument('--dt', type = float, default = 0.01, help = 'Krok czasowy (domyślnie 0.01 s)')
 
     args = parser.parse_args()
 
-    with open(args.config, 'r') as file:
-        configs = json.load(file)
+    try:
+        with open(args.config, 'r') as file:
+            configs = json.load(file)
+    except FileNotFoundError:
+        print(f'Błąd: Nie znaleziono pliku {args.config}')
+        exit()
 
     symulacje = []
 
     for config in configs.values():
 
-        G = args.G if args.G is not None else config['G']
-        t_max = args.t_max if args.t_max is not None else config['t_max']
+        try: # wyłapywanie błędów w konfiguracji
+            G = args.G if args.G is not None else config.get('G', 1.0)
+            t_max = args.t_max if args.t_max is not None else config.get('t_max', 10.0)
+            dt = args.dt if args.dt is not None else config.get('dt', 0.01)
 
-        symulacje.append({
-            "masy": config["masy"],
-            "x": [p[0] for p in config["pozycje"]],
-            "y": [p[1] for p in config["pozycje"]],
-            "vx": [v[0] for v in config["predkosci"]],
-            "vy": [v[1] for v in config["predkosci"]],
+            if G <= 0 or t_max <= 0 or dt <= 0:
+                raise ValueError('Parametry muszą być > 0!')
 
-            "G": G,
-            "t_max": t_max,
-            "dt": 0.01,
-            "nazwa": config.get("opis", "")
-        })
+            symulacje.append({
+                'masy': config["masy"],
+                'x': [p[0] for p in config["pozycje"]],
+                'y': [p[1] for p in config["pozycje"]],
+                'vx': [v[0] for v in config["predkosci"]],
+                'vy': [v[1] for v in config["predkosci"]],
 
+                'G': G,
+                't_max': t_max,
+                'dt': dt,
+                'nazwa': config.get('opis', '')
+            })
+
+        except (ValueError, KeyError, TypeError) as e:
+            print(f'Błąd w konfiguracji: {e}')
+            print('Spróbuj ponownie wpisać poprawne parametry. ')
+            break
+
+    if not symulacje: # niepokazanie symulacji w przypadku błędów w konfiguracji
+        exit()
+        
     panel = AnimacjaPanel()
     panel.run_all(symulacje)
     
