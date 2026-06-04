@@ -25,7 +25,7 @@ class AnimacjaPanel:
         self.panel_h = height // 2
 
     def draw_bodies(self, sim, offset_x, offset_y):
-        colors = [(116,148,196), (106,77,97), (195,212,7)]
+        colors = sim.get('kolor', [(116, 148, 196), (106, 77, 97), (195, 212, 7)]) # domyślne kolory
 
         panel_rect = pygame.Rect(offset_x, offset_y, self.panel_w, self.panel_h)
 

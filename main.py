@@ -1,7 +1,8 @@
 import numpy as np
 import json
 from liczenie_energii import Energies
-from symulacja import oblicz_przyspieszenia, symuluj_krok
+from symulacja import symuluj_krok, oblicz_przyspieszenia
+
    
 # def oblicz_przyspieszenia(masy, x, y, G, wygladzanie=0.01):
 #     '''

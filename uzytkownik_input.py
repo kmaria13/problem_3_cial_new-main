@@ -17,6 +17,9 @@ if __name__ == '__main__':
     parser.add_argument('--pozycje', nargs = 6, type = float, default = None, help = 'Pozycje początkowe (x0 y0 x1 y1 x2 y2), np. --pozycje -0.5 0.0 0.5 0.0 0.0 0.5')
     parser.add_argument('--predkosci', nargs = 6, type = float, default = None, help = 'Prędkości początkowe (vx0 vy0 vx1 vy1 vx2 vy2), np. --predkosci 0.0 -0.5 0.0 0.5 0.5 0.0')
     
+    parser.add_argument('--kolor', nargs = 9, type = int, default = None, help = 'Kolory ciał RGB, np. r0 g0 b0 r1 g1 b1 r2 g2 b2 (każda wartość 0-255)')
+    parser.add_argument('--nazwa', type = str, default = '', help = 'Nazwa konfiguracji')
+    
     args = parser.parse_args()
     
     try: # wyłapywanie, czy plik istnieje
@@ -59,8 +62,24 @@ if __name__ == '__main__':
                 vx = [v[0] for v in config['predkosci']]
                 vy = [v[1] for v in config['predkosci']]
 
-            if G <= 0 or t_max <= 0 or dt <= 0:
+            if G <= 0 or t_max <= 0 or dt <= 0: # sprawdzenie poprawności parametrów
                 raise ValueError('Parametry (G, t_max, dt) muszą być > 0!')
+            
+            if args.kolor is not None:
+                colors = [(args.kolor[0], args.kolor[1], args.kolor[2]), 
+                          (args.kolor[3], args.kolor[4], args.kolor[5]), 
+                          (args.kolor[6], args.kolor[7], args.kolor[8])
+                          ]
+            else:
+                print('Nie podano kolorów, używane będą domyślne.')
+                colors = config.get('kolor',[
+                    (116,148,196), 
+                    (106,77,97), 
+                    (195,212,7)
+                ])
+                
+            if args.nazwa != '':
+                nazwa = args.nazwa
 
             symulacje.append({
                 'masy': masy,
@@ -72,8 +91,12 @@ if __name__ == '__main__':
                 'G': G,
                 't_max': t_max,
                 'dt': dt,
-                'nazwa': config.get('opis', '')
+                'nazwa': config.get('opis', ''),
+                
+                'kolor': colors,
+                'nazwa': nazwa
             })
+            
         except ValueError as e: 
             print(f'Błąd w wartości parametru: {e}')
             exit()
