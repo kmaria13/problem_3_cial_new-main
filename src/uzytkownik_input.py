@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser.add_argument('--predkosci', nargs = 6, type = float, default = None, help = 'Prędkości początkowe (vx0 vy0 vx1 vy1 vx2 vy2), np. --predkosci 0.0 -0.5 0.0 0.5 0.5 0.0')
     
     parser.add_argument('--kolor', nargs = 9, type = int, default = None, help = 'Kolory ciał RGB, np. r0 g0 b0 r1 g1 b1 r2 g2 b2 (każda wartość 0-255)')
-    parser.add_argument('--nazwa', type = str, default = '', help = 'Nazwa konfiguracji')
+    # parser.add_argument('--nazwa', type = str, default = '', help = 'Nazwa konfiguracji')
     
     args = parser.parse_args()
     
@@ -78,8 +78,8 @@ if __name__ == '__main__':
                     (195,212,7)
                 ])
                 
-            if args.nazwa != '':
-                nazwa = args.nazwa
+            # if args.nazwa != '':
+            #     nazwa = args.nazwa
 
             symulacje.append({
                 'masy': masy,
@@ -94,7 +94,7 @@ if __name__ == '__main__':
                 'nazwa': config.get('opis', ''),
                 
                 'kolor': colors,
-                'nazwa': nazwa
+                # 'nazwa': nazwa
             })
             
         except ValueError as e: 
