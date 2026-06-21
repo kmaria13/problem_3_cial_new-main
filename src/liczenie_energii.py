@@ -24,5 +24,4 @@ class Energies:
         for i in range(3):
             E_tot = self.energia_kinetyczna(vx, vy) + self.energia_potencjalna(x, y, G)
         return E_tot
-        
     

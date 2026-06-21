@@ -143,4 +143,3 @@ class AnimacjaPanel:
             self.clock.tick(60)
 
         pygame.quit()
-       

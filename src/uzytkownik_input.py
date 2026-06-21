@@ -78,8 +78,6 @@ if __name__ == '__main__':
                     (195,212,7)
                 ])
                 
-            # if args.nazwa != '':
-            #     nazwa = args.nazwa
 
             symulacje.append({
                 'masy': masy,
@@ -93,8 +91,7 @@ if __name__ == '__main__':
                 'dt': dt,
                 'nazwa': config.get('opis', ''),
                 
-                'kolor': colors,
-                # 'nazwa': nazwa
+                'kolor': colors
             })
             
         except ValueError as e: 
@@ -110,3 +107,4 @@ if __name__ == '__main__':
         
     panel = AnimacjaPanel()
     panel.run_all(symulacje)
+    
