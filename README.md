@@ -3,7 +3,7 @@
 ## Autorki
 - Maja – podstawa symulacji, GUI, animacja, JSON.
 - Maria – obsługa błędów, argumenty wiersza poleceń (arparse), obliczanie energii: całkowitej, potencjalnej i kinetycznej układu.
-- Paulina - 
+- Paulina - tworzenie 3 ciał, PyGame, pobieranie pierwotnych danych pozycyjnych i tworzenie czterech paneli
 
 ---
 
